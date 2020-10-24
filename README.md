@@ -1,2 +1,2 @@
 # ScaleFree-and-Random
-what the tutor guide us
+Task assigned by the instructor: a simple model of a complex network
