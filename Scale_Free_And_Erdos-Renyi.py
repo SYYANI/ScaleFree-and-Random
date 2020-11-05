@@ -43,7 +43,11 @@ def k_distrib(graph, scale='lin', colour='#40a6d1', alpha=.8, expct_lo=1, expct_
     if scale == 'log':
         plt.xscale('log')
         plt.yscale('log')
-        plt.title('Degree distribution (log-log scale)')
+        if graph==G:
+            plt.title('Scale-Free model Degree distribution (log-log scale)')
+        if graph==G2:
+            plt.title('Erdos-Renyi model Degree distribution (log-log scale)')
+        #plt.title('Degree distribution (log-log scale)')
         # add theoretical distribution line k^-3
         w = [a for a in range(expct_lo,expct_hi)]
         z = []
@@ -64,16 +68,16 @@ def k_distrib(graph, scale='lin', colour='#40a6d1', alpha=.8, expct_lo=1, expct_
     plt.show()
 
 # ____________________________________________________________________
-# SECTION 3 - BA ALGORITHM
+# SECTION 3 - ALGORITHM
 
 #Choose Model
 chooseNumber = int(input("\nchoose Scale-Free model by 1 or Erdos-Renyi model by 2: "))
 
 if chooseNumber==1:
     # Get parameters
-    init_nodes = int(input("Please type in the initial number of nodes (m_0): "))
+    init_nodes = 5#int(input("Please type in the initial number of nodes (m_0): "))
     final_nodes = int(input("\nPlease type in the final number of nodes: "))
-    m_parameter = int(input("\nPlease type in the least number of each nood connected\n(small than the initial nodes number): "))
+    m_parameter = int(input("\nPlease type in the least number of each nood connected\n(Less than or equal to 5): "))
     
     print("\n")
     print("Creating initial graph...")
@@ -103,12 +107,12 @@ if chooseNumber==1:
                 random_proba_node = rand_prob_node()
             new_edge = (random_proba_node, new_node)
             if new_edge in G.edges():
-                print("\t\t\t\t\tWrong!It has been there!")
+                print("\tThe edge connecting node {} and node {} already exists！".format(new_node + 1, random_proba_node))
                 add_edge()
             else:
                 #print("\t\t\t\t\tRight!")
                 G.add_edge(new_node, random_proba_node)
-                print("Edge added: {} {}".format(new_node + 1, random_proba_node))
+                #print("Edge added: {} {}".format(new_node + 1, random_proba_node))
     
     count = 0
     new_node = init_nodes
@@ -123,12 +127,17 @@ if chooseNumber==1:
         new_node += 1
 
     print("\nFinal number of nodes ({}) reached".format(len(G.nodes())))
-    PhotoNumber = int(input("\nchoose nest photo by 1 or ins model by 2: "))
+    PhotoNumber = int(input("\nchoose Network Diagram by 1 or Scatter Diagram by 2 or Double logarithm processed scatter plot by 3 : "))
     if PhotoNumber==1:
         nx.draw(G, node_size=50, with_labels=0, alpha=0.6, node_color="#40a6d1", edge_color="#52bced")
         #plt.title("Visulation Of The Scale Free Network(Number: {})".format(len(G.nodes())))
     elif PhotoNumber==2:
         k_distrib(graph=G,colour='#40a6d1',alpha=.8)
+    elif PhotoNumber==3:
+        k_distrib(graph=G,colour='#40a6d1', scale='log',alpha=.8, expct_lo=3, expct_hi=14, expct_const=8)
+    else:
+        print("Wrong Input!")
+        
 
 elif chooseNumber==2:
     final_nodes2 = int(input("\nPlease type in the final number of nodes: "))
@@ -151,7 +160,7 @@ elif chooseNumber==2:
                 random_proba_node = rand_prob_node()
             new_edge2 = (random_proba_node, new_node2)
             if new_edge2 in G2.edges():
-                print("\tWrong!It has been there!")
+                print("\tThe edge connecting node {} and node {} already exists！".format(new_node + 1, random_proba_node))
                 add_edge2()
             else:
                 #print("\t\t\t\t\tRight!")
@@ -161,25 +170,24 @@ elif chooseNumber==2:
     
     count = 0
     new_node2 = 1
-    #print("----------> Step {1} <----------")
     for h in range(final_nodes2):
         G2.add_node(h)
         #print("Node added: {}".format(count + 1))
         count += 1
     print("Connect nodes...")
-    for k in range(final_nodes2):
+    for k in range(final_nodes2-1):
         for e in range(0, m_parameter2):
             add_edge2()
         new_node2 += 1
         
     print("\nFinal number of nodes ({}) reached".format(len(G2.nodes())))
 
-    PhotoNumber2 = int(input("\nchoose nest photo by 1 or ins model by 2: "))
+    PhotoNumber2 = int(input("\nchoose Network Diagram by 1 or Scatter Diagram by 2: "))
     if PhotoNumber2==1:
-        if len(G2.nodes())< 200:
+        if len(G2.nodes())< 60:
             nx.draw(G2, node_size=40,width=2,with_labels=0, alpha=0.6, node_color="#40a6d1", edge_color="#CD2626")      
         else:
-            plt.figure(figsize=(10, 10))
+            plt.figure(figsize=(15, 15))
             nx.draw(G2, node_size=40, with_labels=0, alpha=0.6, node_color="#40a6d1", edge_color="#CD2626")
         #plt.title("Visulation Of The Scale Free Network(Number: {})".format(len(G.nodes())))
     elif PhotoNumber2==2:
