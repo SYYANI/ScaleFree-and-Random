@@ -44,8 +44,7 @@ def draw(edges):
         
     plt.style.use('seaborn')
     fig, ax = plt.subplots()
-
-    ax.set_title("Erdos-Renli Random Network",fontsize=24)
+    ax.set_title("Erdos-Renyi Random Network",fontsize=24)
     ax.set_xlabel("Number of connections",fontsize=14)
     ax.set_ylabel("Number",fontsize=14)
     ax.scatter(numToconnection_dict.keys(), numToconnection_dict.values(), s=30)
@@ -66,7 +65,6 @@ def draw_2(edges):
         numToconnection_dict[key] = math.log(numToconnection_dict[key], 10)
         numToconnection_dict_key[key]=math.log(key, 10)
         
-
     plt.style.use('seaborn')
     fig, ax = plt.subplots()
 
@@ -100,7 +98,6 @@ if __name__ == "__main__":
         for i in range(final_nodes):
             for j in range(m_parameter):
                 chooseNood(edges).connectNood(edges[i])
-                
         draw(edges)
         
     if (chooseNumber==2):
