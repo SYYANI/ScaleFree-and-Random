@@ -53,7 +53,10 @@ def k_distrib(graph, scale='lin', colour='#40a6d1', alpha=.8, expct_lo=1, expct_
 
         plt.plot(w,z, 'k-', color='#7f7f7f')
     else:
-        plt.title('Degree distribution (linear scale)')
+        if graph==G:
+            plt.title('Scale-Free model Degree distribution (linear scale)')
+        if graph==G2:
+            plt.title('Erdos-Renyi model Degree distribution (linear scale)')
 
 
     plt.ylabel('P(k)')
@@ -64,7 +67,7 @@ def k_distrib(graph, scale='lin', colour='#40a6d1', alpha=.8, expct_lo=1, expct_
 # SECTION 3 - BA ALGORITHM
 
 #Choose Model
-chooseNumber = int(input("\nchoose Erdos-Renyi model by 1 or Scale-Free model by 2: "))
+chooseNumber = int(input("\nchoose Scale-Free model by 1 or Erdos-Renyi model by 2: "))
 
 if chooseNumber==1:
     # Get parameters
@@ -103,7 +106,7 @@ if chooseNumber==1:
                 print("\t\t\t\t\tWrong!It has been there!")
                 add_edge()
             else:
-                print("\t\t\t\t\tRight!")
+                #print("\t\t\t\t\tRight!")
                 G.add_edge(new_node, random_proba_node)
                 print("Edge added: {} {}".format(new_node + 1, random_proba_node))
     
@@ -111,9 +114,9 @@ if chooseNumber==1:
     new_node = init_nodes
     
     for f in range(final_nodes - init_nodes):
-        print("----------> Step {} <----------".format(count))
+        #print("----------> Step {} <----------".format(count))
         G.add_node(init_nodes + count)
-        print("Node added: {}".format(init_nodes + count + 1))
+        #print("Node added: {}".format(init_nodes + count + 1))
         count += 1
         for e in range(0, m_parameter):
             add_edge()
@@ -128,9 +131,8 @@ if chooseNumber==1:
         k_distrib(graph=G,colour='#40a6d1',alpha=.8)
 
 elif chooseNumber==2:
-    init_nodes2 = 10#int(input("Please type in the initial number of nodes (m_0): "))
     final_nodes2 = int(input("\nPlease type in the final number of nodes: "))
-    m_parameter2 = int(input("\nPlease type in the least number of each nood connected\n(small than the initial nodes number): "))
+    m_parameter2 = int(input("\nPlease type in the least number of each nood connected: "))
     
     G2 = nx.Graph()
     
@@ -149,7 +151,7 @@ elif chooseNumber==2:
                 random_proba_node = rand_prob_node()
             new_edge2 = (random_proba_node, new_node2)
             if new_edge2 in G2.edges():
-                print("\t\t\t\t\tWrong!It has been there!")
+                print("\tWrong!It has been there!")
                 add_edge2()
             else:
                 #print("\t\t\t\t\tRight!")
@@ -159,11 +161,12 @@ elif chooseNumber==2:
     
     count = 0
     new_node2 = 1
-    
+    #print("----------> Step {1} <----------")
     for h in range(final_nodes2):
         G2.add_node(h)
         #print("Node added: {}".format(count + 1))
         count += 1
+    print("Connect nodes...")
     for k in range(final_nodes2):
         for e in range(0, m_parameter2):
             add_edge2()
@@ -173,10 +176,11 @@ elif chooseNumber==2:
 
     PhotoNumber2 = int(input("\nchoose nest photo by 1 or ins model by 2: "))
     if PhotoNumber2==1:
-        if len(G2.nodes())<200:
-            nx.draw(G2, node_size=30, with_labels=0, alpha=0.6, node_color="#40a6d1", edge_color="#CD2626")
+        if len(G2.nodes())< 200:
+            nx.draw(G2, node_size=40,width=2,with_labels=0, alpha=0.6, node_color="#40a6d1", edge_color="#CD2626")      
         else:
-            nx.draw(G2, node_size=5, with_labels=0, alpha=0.6, node_color="#40a6d1", edge_color="#CD2626")
+            plt.figure(figsize=(10, 10))
+            nx.draw(G2, node_size=40, with_labels=0, alpha=0.6, node_color="#40a6d1", edge_color="#CD2626")
         #plt.title("Visulation Of The Scale Free Network(Number: {})".format(len(G.nodes())))
     elif PhotoNumber2==2:
         k_distrib(graph=G2,colour='#40a6d1',alpha=.8)
