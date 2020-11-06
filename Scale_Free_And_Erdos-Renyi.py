@@ -11,9 +11,7 @@ Created on Sat Oct 24 22:14:01 2020
 import networkx as nx
 import numpy as np
 import random
-import random as rd
 import matplotlib.pyplot as plt
-import warnings
 
 # ____________________________________________________________________
 # SECTION 2 - VISUALISATION FUNCTION
@@ -75,9 +73,12 @@ chooseNumber = int(input("\nchoose Scale-Free model by 1 or Erdos-Renyi model by
 
 if chooseNumber==1:
     # Get parameters
-    init_nodes = 5#int(input("Please type in the initial number of nodes (m_0): "))
+    
+    init_nodes = int(input("Please type in the initial number of nodes (m_0): "))
     final_nodes = int(input("\nPlease type in the final number of nodes: "))
     m_parameter = int(input("\nPlease type in the least number of each nood connected\n(Less than or equal to 5): "))
+    while m_parameter>init_nodes:
+        m_parameter = int(input("\nWring Input!Please type in the least number of each nood connected again\n(Less than or equal to 5): "))
     
     print("\n")
     print("Creating initial graph...")
@@ -92,7 +93,8 @@ if chooseNumber==1:
         for node in G.nodes():
             node_degr = G.degree(node)
             #print(node_degr)
-            node_proba = node_degr / (2 * len(G.edges()))#记录维数
+            node_proba = node_degr / (2 * len(G.edges()))
+            #Record the degree of each node
             #print("Node proba is: {}".format(node_proba))
             nodes_probs.append(node_proba)
             #print("Nodes probablities: {}".format(nodes_probs))
@@ -192,9 +194,9 @@ elif chooseNumber==2:
         #plt.title("Visulation Of The Scale Free Network(Number: {})".format(len(G.nodes())))
     elif PhotoNumber2==2:
         k_distrib(graph=G2,colour='#40a6d1',alpha=.8)
+    else:
+        print("Wrong Input!")
     
 else:
     print("Wrong Input!")
-            
-            
-           
+     
